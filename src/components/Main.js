@@ -1,27 +1,12 @@
-function Main() {
-  function handleEditAvatarClick() {
-    document
-      .querySelector(".popup_type_edit-avatar")
-      .classList.add("popup_opened");
-  }
-
-  function handleEditProfileClick() {
-    document
-      .querySelector(".popup_type_profile-edit")
-      .classList.add("popup_opened");
-  }
-
-  function handleAddPlaceClick() {
-    document
-      .querySelector(".popup_type_add-card")
-      .classList.add("popup_opened");
-  }
+function Main(props) {
   return (
     <main className="container">
       <section className="profile">
         <button
           className="profile__image-edit-button"
-          onClick={handleEditAvatarClick}
+          onClick={() => {
+            props.onEditAvatar(true);
+          }}
         >
           <img src="#" alt="#" className="profile__image" />
         </button>
@@ -32,7 +17,9 @@ function Main() {
               type="button"
               className="profile__edit-button"
               aria-label="edit"
-              onClick={handleEditProfileClick}
+              onClick={() => {
+                props.onEditProfile(true);
+              }}
             ></button>
           </div>
           <p className="profile__description"></p>
@@ -41,7 +28,9 @@ function Main() {
           type="button"
           className="profile__add-button"
           aria-label="add"
-          onClick={handleAddPlaceClick}
+          onClick={() => {
+            props.onAddPlace(true);
+          }}
         ></button>
       </section>
       <section className="cards">
