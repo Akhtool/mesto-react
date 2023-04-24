@@ -1,44 +1,13 @@
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+
 function App() {
   return (
     <div className="page">
-      <header className="header">
-        <a href="#" className="header__logo-link">
-          <img
-            src="<%=require('./images/header__logo.svg')%>"
-            className="header__logo"
-            alt="Логотип сайта Место"
-          />
-        </a>
-      </header>
-      <main classNameName="container">
-        <section classNameName="profile">
-          <button className="profile__image-edit-button">
-            <img src="#" alt="#" className="profile__image" />
-          </button>
-          <div className="profile__info">
-            <div className="profile__name-edit">
-              <h1 className="profile__name"></h1>
-              <button
-                type="button"
-                className="profile__edit-button"
-                aria-label="edit"
-              ></button>
-            </div>
-            <p className="profile__description"></p>
-          </div>
-          <button
-            type="button"
-            className="profile__add-button"
-            aria-label="add"
-          ></button>
-        </section>
-        <section className="cards">
-          <ul className="cards__list"></ul>
-        </section>
-      </main>
-      <footer className="footer">
-        <p className="footer__copyright">© 2020 Mesto Russia</p>
-      </footer>
+      <Header />
+      <Main />
+      <Footer />
       <div className="popup popup_type_show-image">
         <div className="popup__image-wrapper">
           <button
@@ -62,7 +31,7 @@ function App() {
             action="#"
             name="input-form"
             className="popup__input-form popup__input-form_type_card"
-            novalidate
+            noValidate
           >
             <input
               type="text"
@@ -70,8 +39,8 @@ function App() {
               className="popup__input popup__input_type_card-name"
               placeholder="Название"
               id="card-name-input"
-              minlength="2"
-              maxlength="40"
+              minLength="2"
+              maxLength="40"
               required
             />
             <span className="card-name-input-error popup__input-error"></span>
@@ -100,7 +69,7 @@ function App() {
             action="#"
             name="input-form"
             className="popup__input-form popup__input-form_type_profile"
-            novalidate
+            noValidate
           >
             <input
               type="text"
@@ -108,8 +77,8 @@ function App() {
               className="popup__input popup__input_type_name"
               id="username-input"
               placeholder="Имя"
-              minlength="2"
-              maxlength="40"
+              minLength="2"
+              maxLength="40"
               required
             />
             <span className="username-input-error popup__input-error"></span>
@@ -119,8 +88,8 @@ function App() {
               className="popup__input popup__input_type_description"
               id="user-description-input"
               placeholder="О себе"
-              minlength="2"
-              maxlength="200"
+              minLength="2"
+              maxLength="200"
               required
             />
             <span className="user-description-input-error popup__input-error"></span>
@@ -151,7 +120,7 @@ function App() {
             action="#"
             name="input-form"
             className="popup__input-form popup__input-form_type_edit-avatar"
-            novalidate
+            noValidate
           >
             <input
               type="url"
