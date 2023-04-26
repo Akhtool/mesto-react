@@ -15,7 +15,7 @@ function Main(props) {
         setCards(initialCards);
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   useEffect(() => {
     api
@@ -26,7 +26,7 @@ function Main(props) {
         setUserDescription(userData.about);
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   return (
     <main className="container">
