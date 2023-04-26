@@ -3,11 +3,19 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  }
+
   return (
     <div className="page">
       <Header />
@@ -22,6 +30,7 @@ function App() {
         title="Обновить аватар"
         buttonText="Сохранить"
         isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           type="url"
@@ -38,6 +47,7 @@ function App() {
         title="Редактировать профиль"
         buttonText="Сохранить"
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           type="text"
@@ -67,6 +77,7 @@ function App() {
         title="Новое место"
         buttonText="Создать"
         isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           type="text"
@@ -89,22 +100,7 @@ function App() {
         />
         <span class="card-link-input-error popup__input-error"></span>
       </PopupWithForm>
-      <div className="popup popup_type_show-image">
-        <div className="popup__image-wrapper">
-          <button
-            type="button"
-            className="popup__close-button popup__close-button_type_show-image"
-          ></button>
-          <figure className="popup__figure-wrapper">
-            <img
-              src="#"
-              alt="Фотография из карточки"
-              className="popup__image"
-            />
-            <figcaption className="popup__figure-caption"></figcaption>
-          </figure>
-        </div>
-      </div>
+      <ImagePopup />
       <template id="card-template">
         <li className="card">
           <img alt="Описание изображения" className="card__image" />

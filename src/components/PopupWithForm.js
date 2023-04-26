@@ -19,6 +19,7 @@ function PopupWithForm(props) {
           type="button"
           class="popup__close-button popup__close-button_type_add-card"
           aria-label="close"
+          onClick={props.onClose}
         ></button>
       </div>
     </section>
