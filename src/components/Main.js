@@ -1,10 +1,21 @@
 import { useState, useEffect } from "react";
 import api from "../utils/Api";
+import Card from "./Card";
 
 function Main(props) {
   const [userAvatar, setUserAvatar] = useState(null),
     [userName, setUserName] = useState(null),
-    [userDescription, setUserDescription] = useState(null);
+    [userDescription, setUserDescription] = useState(null),
+    [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((initialCards) => {
+        setCards(initialCards);
+      })
+      .catch((err) => console.log(err));
+  });
 
   useEffect(() => {
     api
@@ -53,6 +64,18 @@ function Main(props) {
       </section>
       <section className="cards">
         <ul className="cards__list"></ul>
+      </section>
+      <section class="cards">
+        <ul class="cards__list">
+          {cards.map((card) => (
+            <Card
+              key={card._id}
+              name={card.name}
+              likes={card.likes.length}
+              link={card.link}
+            />
+          ))}
+        </ul>
       </section>
     </main>
   );
