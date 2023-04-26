@@ -1,4 +1,22 @@
+import { useState, useEffect } from "react";
+import api from "../utils/Api";
+
 function Main(props) {
+  const [userAvatar, setUserAvatar] = useState(null),
+    [userName, setUserName] = useState(null),
+    [userDescription, setUserDescription] = useState(null);
+
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((userData) => {
+        setUserAvatar(userData.avatar);
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+      })
+      .catch((err) => console.log(err));
+  });
+
   return (
     <main className="container">
       <section className="profile">
@@ -8,11 +26,11 @@ function Main(props) {
             props.onEditAvatar(true);
           }}
         >
-          <img src="#" alt="#" className="profile__image" />
+          <img src={userAvatar} alt="#" className="profile__image" />
         </button>
         <div className="profile__info">
           <div className="profile__name-edit">
-            <h1 className="profile__name"></h1>
+            <h1 className="profile__name">{userName}</h1>
             <button
               type="button"
               className="profile__edit-button"
@@ -22,7 +40,7 @@ function Main(props) {
               }}
             ></button>
           </div>
-          <p className="profile__description"></p>
+          <p className="profile__description">{userDescription}</p>
         </div>
         <button
           type="button"
