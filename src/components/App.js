@@ -6,14 +6,20 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false),
+    [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false),
+    [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false),
+    [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(false);
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
   }
 
   return (
@@ -23,6 +29,7 @@ function App() {
         onEditAvatar={setIsEditAvatarPopupOpen}
         onEditProfile={setIsEditProfilePopupOpen}
         onAddPlace={setIsAddPlacePopupOpen}
+        onCardClick={handleCardClick}
       />
       <Footer />
       <PopupWithForm
@@ -100,20 +107,7 @@ function App() {
         />
         <span className="card-link-input-error popup__input-error"></span>
       </PopupWithForm>
-      <ImagePopup />
-      <template id="card-template">
-        <li className="card">
-          <img alt="Описание изображения" className="card__image" />
-          <button type="button" className="card__delete-button"></button>
-          <div className="card__info">
-            <h2 className="card__name"></h2>
-            <div className="card__like-container">
-              <button type="button" className="card__like"></button>
-              <span className="card__like-counter">0</span>
-            </div>
-          </div>
-        </li>
-      </template>
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
   );
 }

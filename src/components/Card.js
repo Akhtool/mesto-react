@@ -1,7 +1,16 @@
 function Card(card) {
+  function handleClick() {
+    card.onCardClick(card);
+  }
+
   return (
     <li className="card">
-      <img className="card__image" src={card.link} alt={card.name} />
+      <img
+        className="card__image"
+        src={card.link}
+        alt={card.name}
+        onClick={handleClick}
+      />
       <button type="button" className="card__delete-button"></button>
       <div className="card__info">
         <h2 className="card__name">{card.name}</h2>
