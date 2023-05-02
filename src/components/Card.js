@@ -1,4 +1,11 @@
 function Card(card) {
+  const currentUser = useContext(CurrentUserContext),
+    isOwn = currentUser._id === card.ownerId,
+    isLiked = card.likes.some((i) => i._id === currentUser._id),
+    cardLikeButtonClassName = !isLiked
+      ? "card__like-icon"
+      : "card__like-icon card__like-icon_active";
+
   function handleClick() {
     card.onCardClick(card);
   }
@@ -11,11 +18,11 @@ function Card(card) {
         alt={card.name}
         onClick={handleClick}
       />
-      <button type="button" className="card__delete-button"></button>
+      {isOwn && <button type="button" className="card__delete-button"></button>}
       <div className="card__info">
         <h2 className="card__name">{card.name}</h2>
         <div className="card__like-container">
-          <button type="button" className="card__like"></button>
+          <button type="button" className={cardLikeButtonClassName}></button>
           <span className="card__like-counter">{card.likes}</span>
         </div>
       </div>
