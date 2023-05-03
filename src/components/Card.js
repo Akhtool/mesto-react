@@ -17,6 +17,10 @@ function Card(card) {
     card.onCardLike(card);
   }
 
+  function handleDeleteClick() {
+    card.onCardDelete(card.id);
+  }
+
   return (
     <li className="card">
       <img
@@ -25,7 +29,13 @@ function Card(card) {
         alt={card.name}
         onClick={handleClick}
       />
-      {isOwn && <button type="button" className="card__delete-button"></button>}
+      {isOwn && (
+        <button
+          type="button"
+          className="card__delete-button"
+          onClick={handleDeleteClick}
+        ></button>
+      )}
       <div className="card__info">
         <h2 className="card__name">{card.name}</h2>
         <div className="card__like-container">

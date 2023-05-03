@@ -45,6 +45,13 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function handleCardDelete(cardId) {
+    api
+      .deleteCard(cardId)
+      .then(() => setCards(cards.filter((c) => c._id !== cardId)))
+      .catch((err) => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -54,8 +61,9 @@ function App() {
           onEditProfile={setIsEditProfilePopupOpen}
           onAddPlace={setIsAddPlacePopupOpen}
           onCardClick={handleCardClick}
-          cards={cards}
           onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+          cards={cards}
         />
         <Footer />
         <PopupWithForm
