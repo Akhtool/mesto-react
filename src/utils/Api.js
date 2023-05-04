@@ -45,13 +45,13 @@ class Api {
     }).then(this._checkResponseStatus);
   }
 
-  setUserInfo(data) {
+  setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.userName,
-        about: data.job,
+        name: name,
+        about: about,
       }),
     }).then(this._checkResponseStatus);
   }
