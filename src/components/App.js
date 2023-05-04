@@ -7,6 +7,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false),
@@ -63,6 +64,16 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function handleUpdateAvatar(userData) {
+    api
+      .updateAvatar(userData)
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -77,23 +88,11 @@ function App() {
           cards={cards}
         />
         <Footer />
-        <PopupWithForm
-          name="edit-avatar"
-          title="Обновить аватар"
-          buttonText="Сохранить"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <input
-            type="url"
-            name="link"
-            className="popup__input popup__input_type_avatar-link"
-            placeholder="Ссылка на картинку"
-            id="avatar-link-input"
-            required
-          />
-          <span className="avatar-link-input-error popup__input-error"></span>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
