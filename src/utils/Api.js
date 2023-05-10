@@ -71,7 +71,7 @@ class Api {
       method: isLiked ? "DELETE" : "PUT",
       headers: this._headers,
     }).then((res) => {
-      this._checkResponseStatus(res);
+      return this._checkResponseStatus(res);
     });
   }
 }

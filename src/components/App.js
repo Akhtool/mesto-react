@@ -10,18 +10,20 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false),
-    [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false),
-    [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false),
-    [selectedCard, setSelectedCard] = useState({ name: "", link: "" }),
-    [currentUser, setCurrentUser] = useState({}),
-    [cards, setCards] = useState([]);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userData) => setCurrentUser(userData))
-      .catch((err) => console.log(err));
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, initialCardsData]) => {
+        setCurrentUser(userData);
+        setCards(initialCardsData);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   function closeAllPopups() {
@@ -37,12 +39,14 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
     api
-      .changeLikeCardStatus(card.id, isLiked)
-      .then((newCard) => {
-        setCards((state) =>
-          state.map((c) => (c._id === card.id ? newCard : c))
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((changedCard) => {
+        const newCards = cards.map((c) =>
+          c._id === card._id ? changedCard : c
         );
+        setCards(newCards);
       })
       .catch((err) => console.log(err));
   }
@@ -50,7 +54,9 @@ function App() {
   function handleCardDelete(cardId) {
     api
       .deleteCard(cardId)
-      .then(() => setCards(cards.filter((c) => c._id !== cardId)))
+      .then(() => {
+        setCards((prevState) => prevState.filter((c) => c._id !== cardId));
+      })
       .catch((err) => console.log(err));
   }
 
@@ -74,9 +80,9 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleAddPlaceSubmit(name, link) {
+  function handleAddPlaceSubmit(cardData) {
     api
-      .addNewCard(name, link)
+      .addNewCard(cardData)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -89,13 +95,13 @@ function App() {
       <div className="page">
         <Header />
         <Main
+          cards={cards}
           onEditAvatar={setIsEditAvatarPopupOpen}
           onEditProfile={setIsEditProfilePopupOpen}
           onAddPlace={setIsAddPlacePopupOpen}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
-          cards={cards}
         />
         <Footer />
         <EditAvatarPopup
